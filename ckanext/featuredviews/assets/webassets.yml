@@ -1,0 +1,11 @@
+featuredviews_script:
+  filters: rjsmin
+  output: featured/featured_%(version)s_graph.js
+  extra:
+    preload:
+      - base/main
+  contents:
+    - ckan.js
+    - featured.js
+
+    

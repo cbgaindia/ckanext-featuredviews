@@ -10,7 +10,7 @@
       </li>
   {% endif %}
 
-  {% set current_filters = request.str_GET.get('filters') %}
+  {% set current_filters = request.args.get('filters') %}
   {% for view in views %}
   	{% set is_selected = true if view_id == view.id else false %}
     {% snippet "package/snippets/resource_views_list_item_featured.html",
@@ -32,4 +32,4 @@
 </ul>
 {% endif %}
 
-{% resource 'featured/js/featured.js' %}
+{% asset 'featured/featuredviews_script' %}

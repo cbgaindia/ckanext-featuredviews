@@ -1,9 +1,10 @@
-import db
-import actions
+from . import db
+from . import actions
 import ckan.model as model
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.dictization.model_dictize as md
+import ckanext.featuredviews.cli as cli
 
 from ckan.lib.dictization import table_dictize
 
@@ -12,6 +13,11 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.ITemplateHelpers, inherit=True)
     plugins.implements(plugins.IConfigurable, inherit=True)
+    plugins.implements(plugins.IClick)
+
+    # IClick
+    def get_commands(self):
+        return cli.get_commands()
 
     # IConfigurable
     def configure(self, config):
@@ -22,7 +28,7 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic', 'featured')
+        toolkit.add_resource('assets', 'featured')
 
     def get_actions(self):
         actions_dict = {

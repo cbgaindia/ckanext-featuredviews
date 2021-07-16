@@ -1,4 +1,4 @@
-import db
+from . import db
 import logging
 import ckan.model as model
 
@@ -11,14 +11,14 @@ import ckan.lib.navl.dictization_functions as df
 log = logging.getLogger(__name__)
 
 schema = {
-    'resource_view_id': [get_validator('not_empty'), unicode],
-    'package_id': [get_validator('ignore_empty'), unicode],
-    'canonical': [get_validator('boolean_validator'), unicode],
-    'homepage': [get_validator('boolean_validator'), unicode]
+    'resource_view_id': [get_validator('not_empty'), str],
+    'package_id': [get_validator('ignore_empty'), str],
+    'canonical': [get_validator('boolean_validator'), str],
+    'homepage': [get_validator('boolean_validator'), str]
 }
 
 schema_get = {
-    'resource_view_id': [get_validator('not_empty'), unicode]
+    'resource_view_id': [get_validator('not_empty'), str]
 }
 
 def featured_create(context, data_dict):
@@ -67,11 +67,13 @@ def featured_upsert(context, data_dict):
 
     featured.resource_view_id = data['resource_view_id']
 
-    if data.has_key('canonical'):
-        featured.canonical = data['canonical']
+    print (data['canonical'])
 
-    if data.has_key('homepage'):
-        featured.homepage = data['homepage']
+    if 'canonical' in data:
+        featured.canonical = data['canonical'] == 'True'
+
+    if 'homepage' in data:
+        featured.homepage = data['homepage'] == 'True'
 
     resource_id = model.ResourceView.get(featured.resource_view_id).resource_id
     featured.package_id = model.Resource.get(resource_id).package_id

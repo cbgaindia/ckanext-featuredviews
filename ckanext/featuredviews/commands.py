@@ -1,6 +1,6 @@
 import ckan.plugins as p
 import paste.script
-import db
+from . import db
 import logging
 
 from ckan.lib.cli import CkanCommand
